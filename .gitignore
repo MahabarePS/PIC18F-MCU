@@ -53,3 +53,38 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Other common ignored files
+.DS_Store
+Thumbs.db
+*.user
+*.suo
+*.ncb
+*.aps
+*.obj
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+*.properties
+*.mk
+*.xml
+*.pdsbak
+*.hxl
+*.lst
+*.mum
+*.rlf
+*.sdb
+*.sym
+*.cmf
+*.i
+*.p1
+
+!build.xml
+Makefile
+
+# PIC packages to ignore
+UART/UART-to-LCD/nbproject/*
+UART/UART-to-LCD/build/*
+UART/UART-to-LCD/dist/*
