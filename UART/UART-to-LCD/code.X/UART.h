@@ -24,8 +24,11 @@ extern "C" {
         //---Data received will be stored in
         RCREG;
         //---Control flags for reception
-        RCSTA;
-        
+        RCSTAbits.SPEN = SET;
+        BAUDCONbits.BRG16 = SET;
+        SPBRGH=RESET;
+        SPBRG=RESET;
+        INTCONbits.GIE=RESET;
     }
     void UART_reception(){
         /*
