@@ -29,6 +29,9 @@ extern "C" {
         SPBRGH=RESET;
         SPBRG=RESET;
         INTCONbits.GIE=RESET;
+        INTCONbits.PEIE=SET;
+        INTCONbits.INT0IE=SET;
+        
     }
     void UART_reception(){
         /*
