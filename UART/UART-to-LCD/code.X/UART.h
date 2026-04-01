@@ -17,21 +17,25 @@ extern "C" {
 //---Receive data from UART on RC7
 #define RX_PIN RC7
 //---TRIS register used to data direction
-#define RX_PIN_CONFIG TRISC0
+#define RX_PIN_CONFIG TRISCbits.RC7
     void UART_init(){
         //---Setting data direction as input
         RX_PIN_CONFIG = INPUT_PIN;
-        //---Data received will be stored in
-        RCREG;
-        //---Control flags for reception
-        RCSTAbits.SPEN = SET;
+        //---Initialize SPBRGH:SPBRG(51)
+        SPBRGH =0x00 ;
+        SPBRG=0x33 ;
+        //---16-bit Asynchronous High Speed
+        //---SYNC=0,BRGH=0, BRG16=1
+        TXSTAbits.SYNC = RESET;
         BAUDCONbits.BRG16 = SET;
-        SPBRGH=RESET;
-        SPBRG=RESET;
-        INTCONbits.GIE=RESET;
+        TXSTAbits.BRGH = RESET;
+        //---Enable the asynchronous serial port by
+        RCSTAbits.SPEN = SET;
+        //---Enabling the interrupt
         INTCONbits.PEIE=SET;
-        INTCONbits.INT0IE=SET;
-        
+        PIE1bits.RCIE=SET;
+        //---Enable recception
+        RCSTAbits.CREN = SET;
     }
     void UART_reception(){
         /*
