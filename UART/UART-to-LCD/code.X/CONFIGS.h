@@ -26,6 +26,8 @@ extern "C" {
     
 #define SET 1
 #define RESET 0
+    
+uint8_t volatile data;            // copy RCREG data in to data register
 
 #ifdef	__cplusplus
 }
