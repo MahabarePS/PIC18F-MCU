@@ -18,6 +18,8 @@ extern "C" {
 #define RX_PIN RC7
 //---TRIS register used to data direction
 #define RX_PIN_CONFIG TRISCbits.RC7
+    
+
     void UART_init(){
         //---Setting data direction as input
         RX_PIN_CONFIG = INPUT_PIN;
@@ -32,9 +34,10 @@ extern "C" {
         //---Enable the asynchronous serial port by
         RCSTAbits.SPEN = SET;
         //---Enabling the interrupt
+        INTCONbits.GIE=SET;
         INTCONbits.PEIE=SET;
         PIE1bits.RCIE=SET;
-        //---Enable recception
+        //---Enable reception
         RCSTAbits.CREN = SET;
     }
     void UART_reception(){
@@ -43,6 +46,18 @@ extern "C" {
          * get the string received from UART
          * Send it to the LCD as a string;
          */
+        //---Once the reception is complete RCIF is SET
+        if(PIR1bits.RCIF==SET){
+            //---if Error flags are SET
+            if(RCSTAbits.OERR==SET || RCSTAbits.FERR==SET)
+            {
+                //Do nothing
+            }else{
+                //---copy the received bits in a register
+                data = RCREG;
+            }
+            PIR1bits.RCIF==RESET;
+        }
     }
 
 #ifdef	__cplusplus
