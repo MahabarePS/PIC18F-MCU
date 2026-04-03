@@ -13,6 +13,7 @@ extern "C" {
 #endif
     
 #include "CONFIGS.h"
+#include "UART.h"
 
 #define LCD_PORT PORTD
 #define LCD_RS RA0

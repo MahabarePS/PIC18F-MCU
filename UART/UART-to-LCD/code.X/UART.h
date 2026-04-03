@@ -19,7 +19,7 @@ extern "C" {
 //---TRIS register used to data direction
 #define RX_PIN_CONFIG TRISCbits.RC7
     
-
+unsigned char data='\0';            // copy RCREG data in to data register
     void UART_init(){
         //---Setting data direction as input
         RX_PIN_CONFIG = INPUT_PIN;
@@ -27,10 +27,10 @@ extern "C" {
         SPBRGH =0x00 ;
         SPBRG=0x33 ;
         //---16-bit Asynchronous High Speed
-        //---SYNC=0,BRGH=0, BRG16=1
+        //---SYNC=0,BRGH=1, BRG16=1
         TXSTAbits.SYNC = RESET;
         BAUDCONbits.BRG16 = SET;
-        TXSTAbits.BRGH = RESET;
+        TXSTAbits.BRGH = SET;
         //---Enable the asynchronous serial port by
         RCSTAbits.SPEN = SET;
         //---Enabling the interrupt
@@ -40,23 +40,19 @@ extern "C" {
         //---Enable reception
         RCSTAbits.CREN = SET;
     }
-    void UART_reception(){
-        /*
+    /*
          When UART flag is 1
          * get the string received from UART
          * Send it to the LCD as a string;
-         */
+    */
+    void __interrupt() ISR(void){
         //---Once the reception is complete RCIF is SET
-        if(PIR1bits.RCIF==SET){
-            //---if Error flags are SET
-            if(RCSTAbits.OERR==SET || RCSTAbits.FERR==SET)
+        if(RCIF==SET){
+            if(OERR==SET)
             {
-                //Do nothing
-            }else{
-                //---copy the received bits in a register
-                data = RCREG;
+                CREN=RESET;    //Disable receiver
+                CREN=SET;      //Enable receiver
             }
-            PIR1bits.RCIF==RESET;
         }
     }
 
