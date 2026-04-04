@@ -14,9 +14,11 @@ void main(void) {
     ADCON1 = 0x0F;
     LCD_GPIO_Init();
     LCD_Init();
-    LCD_StringDisplay(data);
     while(1){
-        
+        while(RCIF==1){
+            data =  RCREG;
+        }
+        LCD_StringDisplay(data);
     }
     return;
 }
