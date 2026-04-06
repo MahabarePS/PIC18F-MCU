@@ -30,7 +30,7 @@ void LCD_GPIO_Init(void);
 void LCD_Init(void);
 void LCD_Command (unsigned char );
 void LCD_Data (unsigned char );
-void LCD_StringDisplay(unsigned char *);
+void LCD_StringDisplay(unsigned char*);
 
 void LCD_GPIO_Init(void)
 {

@@ -19,7 +19,8 @@ extern "C" {
 //---TRIS register used to data direction
 #define RX_PIN_CONFIG TRISCbits.RC7
     
-unsigned char data='\0';            // copy RCREG data in to data register
+volatile unsigned char data='\0';            // copy RCREG data in to data register
+volatile uint8_t rx_flag = 0;                // indicator or new data   
     void UART_init(){
         //---Setting data direction as input
         RX_PIN_CONFIG = INPUT_PIN;
@@ -50,10 +51,17 @@ unsigned char data='\0';            // copy RCREG data in to data register
         if(RCIF==SET){
             if(OERR==SET)
             {
-                CREN=RESET;    //Disable receiver
-                CREN=SET;      //Enable receiver
+                CREN=RESET;     //Disable receiver
+                CREN=SET;       //Enable receiver
+            }else{
+                rx_flag=SET;
+                read_rxBuffer();  //copy the data and h/w will RESET RCIF
             }
         }
+    }
+    
+    void read_rxBuffer(){
+        data = RCREG;
     }
 
 #ifdef	__cplusplus

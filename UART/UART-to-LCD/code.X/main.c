@@ -14,11 +14,11 @@ void main(void) {
     ADCON1 = 0x0F;
     LCD_GPIO_Init();
     LCD_Init();
+    UART_init();
     while(1){
-        while(RCIF==1){
-            data =  RCREG;
-        }
+        if(rx_flag==SET){
         LCD_StringDisplay(data);
+        }rx_flag=RESET;
     }
     return;
 }
