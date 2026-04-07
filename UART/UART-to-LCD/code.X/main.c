@@ -15,10 +15,9 @@ void main(void) {
     LCD_GPIO_Init();
     LCD_Init();
     UART_init();
-    while(1){
-        if(rx_flag==SET){
-        LCD_StringDisplay(data);
-        }rx_flag=RESET;
+    if(letter != '\0'){
+        LCD_CharDisplay(letter);
+        letter = '\0';  // clear after use
     }
     return;
 }
