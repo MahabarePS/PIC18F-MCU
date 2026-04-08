@@ -15,9 +15,12 @@ void main(void) {
     LCD_GPIO_Init();
     LCD_Init();
     UART_init();
-    if(letter != '\0'){
-        LCD_CharDisplay(letter);
-        letter = '\0';  // clear after use
+    
+    while(1){
+        if(letter != '\0'){
+            LCD_CharDisplay(letter);
+            letter = '\0';
+        }
     }
     return;
 }
