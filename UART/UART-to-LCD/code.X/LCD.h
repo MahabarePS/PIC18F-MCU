@@ -15,7 +15,7 @@ extern "C" {
 #include "CONFIGS.h"
 #include "UART.h"
 
-#define LCD_PORT PORTD
+#define LCD_PORT LATD
 #define LCD_RS LATAbits.LATA0
 #define LCD_RW LATAbits.LATA1
 #define LCD_EN LATAbits.LATA2
@@ -31,6 +31,8 @@ void LCD_Init(void);
 void LCD_Command (unsigned char );
 void LCD_Data (unsigned char );
 void LCD_CharDisplay(unsigned char);
+
+uint8_t count = 0;
 
 void LCD_GPIO_Init(void)
 {
@@ -54,31 +56,28 @@ void LCD_Init(void)
 
 void LCD_Command (unsigned char CMD)
 {
-      LCD_RW=0;
-      LCD_RS=0;
+      LCD_RW=OFF;
+      LCD_RS=OFF;
       LCD_PORT=CMD;
-      LCD_EN=1;
+      LCD_EN=ON;
       __delay_us(10);
-      LCD_EN=0;
+      LCD_EN=OFF;
 }
 
 void LCD_Data (unsigned char DAT)
 {
-      LCD_RW=0;
-      LCD_RS=1;
+      LCD_RW=OFF;
+      LCD_RS=ON;
       LCD_PORT=DAT;
-      LCD_EN=1;
+      LCD_EN=ON;
       __delay_us(10);
-      LCD_EN=0;
+      LCD_EN=OFF;
 }
 
 void LCD_CharDisplay(unsigned char ltr)
 {
-	if(ltr!='\0')
-	{
-		LCD_Data(ltr);
-		__delay_ms(2);
-	}
+	LCD_Data(ltr);
+	__delay_ms(2);
 }
 
 
