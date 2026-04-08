@@ -26,22 +26,22 @@ extern "C" {
     void UART_init(){
         //---Setting data direction as input
         RX_PIN_CONFIG = INPUT_PIN;
-        //---Initialize SPBRGH:SPBRG(51)
+        //---Initialize SPBRGH:SPBRG(207)
         SPBRGH =0x00 ;
-        SPBRG=0x33 ;
+        SPBRG=0xCF;
         //---16-bit Asynchronous High Speed
-        //---SYNC=0,BRGH=1, BRG16=1
-        TXSTAbits.SYNC = RESET;
-        BAUDCONbits.BRG16 = SET;
-        TXSTAbits.BRGH = SET;
+        //---SYNC=0,BRGH=0, BRG16=1
+        TXSTAbits.SYNC = OFF;
+        BAUDCONbits.BRG16 = ON;
+        TXSTAbits.BRGH = ON;
         //---Enable the asynchronous serial port by
-        RCSTAbits.SPEN = SET;
+        RCSTAbits.SPEN = ON;
         //---Enabling the interrupt
-        INTCONbits.GIE=SET;
-        INTCONbits.PEIE=SET;
-        PIE1bits.RCIE=SET;
+        INTCONbits.GIE=ON;
+        INTCONbits.PEIE=ON;
+        PIE1bits.RCIE=ON;
         //---Enable reception
-        RCSTAbits.CREN = SET;
+        RCSTAbits.CREN =ON;
     }
     /*
          When UART flag is 1
@@ -50,11 +50,11 @@ extern "C" {
     */
     void __interrupt() ISR(void){
         //---Once the reception is complete RCIF is SET
-        if(RCIF==SET){
-            if(OERR==SET)
+        if(RCIF==ON){
+            if(OERR==ON)
             {
-                CREN=RESET;     //Disable receiver
-                CREN=SET;       //Enable receiver
+                CREN=OFF;     //Disable receiver
+                CREN=ON;       //Enable receiver
             }else{
                 read_rxBuffer();  //copy the data and h/w will RESET RCIF
             }
