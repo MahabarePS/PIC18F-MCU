@@ -24,8 +24,8 @@ extern "C" {
 #define OUTPUT_PORT 0x00
 #define INPUT_PORT 0xff
     
-#define SET 1
-#define RESET 0
+#define ON 1
+#define OFF 0
 
 
 #ifdef	__cplusplus
