@@ -32,7 +32,7 @@ void LCD_Command (unsigned char );
 void LCD_Data (unsigned char );
 void LCD_CharDisplay(unsigned char);
 
-uint8_t count = 0;
+volatile uint8_t count = 0;
 
 void LCD_GPIO_Init(void)
 {
@@ -76,8 +76,21 @@ void LCD_Data (unsigned char DAT)
 
 void LCD_CharDisplay(unsigned char ltr)
 {
-	LCD_Data(ltr);
-	__delay_ms(2);
+    
+    if(count == 16){
+        LCD_Command(0xC0);   // move to 2nd line
+    }
+
+    if(count == 32){
+        LCD_Command(0x01);   // clear display
+        __delay_ms(2);
+        count = 0;
+    }
+
+    LCD_Data(ltr);
+    __delay_ms(2);
+
+    count++;
 }
 
 
