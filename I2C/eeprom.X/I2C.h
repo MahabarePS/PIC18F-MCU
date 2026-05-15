@@ -13,7 +13,16 @@ extern "C" {
 #endif
 
 #include "CONFIG.h"
-
+/*
+ * RC3/SCK/SCL
+ * RC4/SDI/SDA
+ */
+#define TRISCbits.TRISC3 SCL
+#define TRISCbits.TRISC4 SDA
+ 
+    void I2C_init(void);        //I2C driver
+    //need global interrupt enabled
+    
 #ifdef	__cplusplus
 }
 #endif
