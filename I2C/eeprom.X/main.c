@@ -7,7 +7,10 @@
 
 
 #include <xc.h>
+#include "CONFIG.h"
+#include "I2C.h"
 
 void main(void) {
+    ADCON1 = 0x0F;
     return;
 }
