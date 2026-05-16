@@ -23,6 +23,11 @@ extern "C" {
     void I2C_init(void);        //I2C driver
     //need global interrupt enabled
     
+    void I2C_init(){
+        //---Enabling the interrupt
+        INTCONbits.GIE=ON;
+        INTCONbits.PEIE=ON;
+    }
 #ifdef	__cplusplus
 }
 #endif
